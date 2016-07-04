@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 7 - Servlets</title>
+    <link rel="stylesheet" type="text/css" href="../resources/css/default.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+        .redBorder {
+            border: 1px solid #ff0000;
+        }
+        body {   /*Наследование*/
+            background-color: #d2d0d2;
+        }
+        INPUT:focus{color: blue !important;} /*Применение псевдокласса :focus*/
+        INPUT[type="submit"] {color: green;}
+        input {
+            margin: 1% 1% 4% 2%;
+            color: darkblue !important;  /*Каскадирование*/
+            font-weight:bold;
+            font-size: 17px;
+
+        }
+
+        #tab {border:1px solid black;}
+
+        th p {              /*Селекторы потомков*/
+            color: #000080;
+            margin: 2%;
+            text-align: center;
+        }
+
+        P {
+            padding-left: 20px;
+            color: #000080;
+            font-family: Arial, Verdana, sans-serif;
+            font-weight:bold;
+        }
+
+        #container {
+            margin: 3% auto;
+            width: 900px;
+            height: 200px;
+        }
+
+        #header {
+            height: 40px;
+            text-align: center;
+            font-size: 190%;
+        }
+
+        #information {
+            text-align: center;
+            font-family: Arial, Verdana, sans-serif, monospace;
+            color: #000080;
+            font-size: 130%;
+            font-weight: 600;
+            line-height: 1.5;
+            height: 100px;
+        }
+
+        #imagine {
+            height: 350px;
+            text-align: center;
+        }
+
+
+        #submit {
+            height: 30px;
+            text-align: center;
+            margin-left: 40%;
+        }
+
+        .inputs {   /*Селектор класса*/
+            height: 20px;
+            margin-left: 15%;
+        }
+        .child {
+            height: 20px;
+            margin-left: 15%;
+        }
+    </style>
+</head>
+
+<body>
+<div id="container">
+    <div id="header">
+        <p>Лабораторная работа №7</p>
+    </div>
+    <div id="information">
+        Суханова Виктория <br/>
+        Группа: P3218 <br/>
+        Вариант: 477 <br/>
+    </div>
+    <div id="content">
+        <div id="imagine">
+            <img src="..\resources\images\555.gif" alt="image">
+        </div>
+        <form method="get" action="WebForm" class="box">
+            <div id="xes" class="inputs">
+                <label><p>Выберите x: </label>
+                <select id="select">
+                    <option value="-4" name="x">-4</option>
+                    <option value="-3" name="x" selected>-3</option>
+                    <option value="-2" name="x">-2</option>
+                    <option value="-1" name="x">-1</option>
+                    <option value="0" name="x">0</option>
+                    <option value="1" name="x">1</option>
+                    <option value="2" name="x">2</option>
+                    <option value="3" name="x">3</option>
+                    <option value="4" name="x">4</option>
+                </select>
+
+                <label>
+                    <input type="radio" name="x" value="-3"/>
+                    -3
+                </label>
+                <label>
+                    <input type="radio" name="x" value="-2"/>
+                    -2
+                </label>
+                <label>
+                    <input type="radio" name="x" value="-1"/>
+                    -1
+                </label>
+                <label>
+                    <input type="radio" name="x" value="0"/>
+                    0
+                </label>
+                <label>
+                    <input type="radio" name="x" value="1"/>
+                    1
+                </label>
+                <label>
+                    <input type="radio" name="x" value="2"/>
+                    2
+                </label>
+                <label>
+                    <input type="radio" name="x" value="3"/>
+                    3
+                </label>
+                <label>
+                    <input type="radio" name="x" value="4"/>
+                    4
+                </label>
+                <label>
+                    <input type="radio" name="x" value="5"/>
+                    5
+                </label>
+
+                <label id="xErrorMessage" style="color: red">Select x!</label>
+            </div>
+            <div id="ys" class="child">
+                <label>
+                    <p>Выберите y:
+                        <input id="dangerInput" type="text"/>
+                </label>
+                <label id="yErrorMessage" style="color: red">Input correct Numeric Y!</label>
+            </div>
+            <div id="rs" class="child">
+                <label><p>Выберите R: </label>
+
+                <label>
+                    <input type="checkbox" name="r" value="1"/>
+                    1
+                </label>
+                <label>
+                    <input type="checkbox" name="r" value="1.5"/>
+                    1.5
+                </label>
+                <label>
+                    <input type="checkbox" name="r" value="2"/>
+                    2
+                </label>
+                <label>
+                    <input type="checkbox" name="r" value="2.5"/>
+                    2.5
+                </label>
+                <label>
+                    <input type="checkbox" name="r" value="3"/>
+                    3
+                </label>
+
+                <label id="rErrorMessage" style="color: red">Select R!</label>
+            </div>
+
+            <input id="submit" type="submit" disabled="true" value="Проверить точку">
+        </form>
+    </div>
+</div>
+</body>
+
+<script>
+    // x change hanler
+    $("select[name='x']").on('click', function () {
+        if (!isXValid()) {
+            $('#xErrorMessage').text("Select X!");
+            $('#submit').attr('disabled', 'disabled');
+        } else {
+            $('#xErrorMessage').text("");
+
+            if (validateAll() == true) {
+                $('#submit').removeAttr('disabled');
+            }
+        }
+    });
+
+
+    // x change hanler
+    $('#select').on('change keyup paste inputc', function () {
+        var valueX = $('#select').val();
+
+            if (validateAll() == true)
+                $('#submit').removeAttr('disabled');
+             $('#xErrorMessage').text("");
+
+            });
+
+
+
+    // y change handler
+    $('#dangerInput').on('change keyup paste inputc', function() {
+        var value = $('#dangerInput').val();
+
+        if (isNaN(value) || $.trim(value).length === 0) {
+            $('#yErrorMessage').text("Input correct numeric Y!");
+
+            $('#submit').attr('disabled', 'disabled');
+        } else if (value < -3 || value > 3) {
+            $('#yErrorMessage').text("Y is out of bounds {-3, 3}");
+
+            $('#submit').attr('disabled', 'disabled');
+        } else {
+            $('#yErrorMessage').text("");
+
+            if (validateAll() == true)
+                $('#submit').removeAttr('disabled');
+        }
+    });
+    // r change handler
+    $("input[name*='r']").on('click', function () {
+        var $box = $(this);
+
+        if ($box.is(":checked")) {
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+            $('#rErrorMessage').text("");
+
+            if (validateAll() == true)
+                $('#submit').removeAttr('disabled');
+        } else {
+            $box.prop("checked", false);
+            $('#rErrorMessage').text("Select R!");
+            $('#submit').attr('disabled', 'disabled');
+        }
+    });
+
+    function isXValid() {
+        var checkboxes = document.getElementsByName('x');
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function isXValid() {
+        var valueX = $('#select').val();
+        return (!isNaN(valueX) && $.trim(valueX).length !== 0 && valueX >= -4 && valueX <= 4);
+    }
+    function isYValid() {
+        var value = $('#dangerInput').val();
+
+        return (!isNaN(value) && $.trim(value).length !== 0 && value >= -3 && value <= 3);
+    }
+    function isRValid() {
+        return $('input[name="r"]:checked').val() != null;
+    }
+
+    function validateAll() {
+        return isXValid() && isYValid() && isRValid();
+    }
+</script>
+</html>
