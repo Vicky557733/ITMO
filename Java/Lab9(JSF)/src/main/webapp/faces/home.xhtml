@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://java.sun.com/jsf/html">
+<ui:composition>
+<h:head>
+    <title>Start page</title>
+</h:head>
+<h:body>
+    <div>
+        <h:outputText value="Лабораторная работа №9"/><br/><br/>
+        <h:outputText value="Суханова Виктория"/><br/>
+        <h:outputText value="Вариант 1169"/>
+    </div>
+    <div>
+        <p:outputLabel value="Время: "></p:outputLabel>
+        <p:outputLabel id="clock"/>
+        <!--<h:outputText id="clock" value="Время: "/>-->
+    </div>
+    <h:link value="Перейти на основную страницу приложения" outcome="main" />
+
+    <h:outputScript>
+        var intervalID = window.setInterval(myCallback, 9000);
+
+        function myCallback() {
+            var currentdate = new Date();
+            var datetime = currentdate.getHours() + ":"
+                    + currentdate.getMinutes() + ":"
+                    + currentdate.getSeconds();
+
+            document.getElementById('clock').innerHTML = datetime;
+        }
+    </h:outputScript>
+</h:body>
+</ui:composition>
+</html>
