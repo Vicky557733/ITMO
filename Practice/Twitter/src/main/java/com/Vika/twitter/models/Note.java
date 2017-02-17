@@ -7,7 +7,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "note")
+@Table(name = "notes")
 public class Note {
     @Id
     @GeneratedValue(generator = "increment")
@@ -31,8 +31,7 @@ public class Note {
     public Note(User user, String body) {
         this.user = user;
         this.body = body;
-        long currentTime = System.currentTimeMillis();
-        this.creationDate = new Date(currentTime);
+        this.creationDate = new Date();
     }
 
     public Long getId() {

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>HOME</title>
+    <link href='../static/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
+    <link href='../../webapp/resources/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
+    <link href='../static/css/myStyle.css' rel='stylesheet' type='text/css'/>
+    <link href='../../webapp/resources/css/myStyle.css' rel='stylesheet' type='text/css'/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../webapp/resources/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function searchFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<br><br>
+<div class="container-fluid well span6">
+    <div class="row-fluid">
+        <div class="span2" >
+            <img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle">
+        </div>
+
+        <div class="span8">
+            <h3>User Name</h3>
+            <h6>Email: MyEmail@servidor.com</h6>
+            <h6>Ubication: Colombia</h6>
+            <h6>Old: 1 Year</h6>
+            <h6><a href="#">More... </a></h6>
+        </div>
+
+        <div class="span2">
+            <div class="btn-group">
+                <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                    Action
+                    <span class="icon-cog icon-white"></span><span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><span class="icon-wrench"></span> Modify</a></li>
+                    <li><a href="#"><span class="icon-trash"></span> Delete</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

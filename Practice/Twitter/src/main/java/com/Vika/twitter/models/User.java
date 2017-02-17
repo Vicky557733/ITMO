@@ -1,12 +1,16 @@
 package com.Vika.twitter.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "users")
+public class User implements Serializable {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name= "increment", strategy= "increment")
@@ -19,18 +23,22 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "login")
-    private String login;
+    @Column(name = "username")
+    private String username;
 
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password")
     private String password;
 
+    @ManyToMany
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
     protected User() {}
 
-    public User(String name, String surname, String login, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.login = login;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
@@ -46,12 +54,21 @@ public class User {
         return surname;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public void setId(Long id) {
@@ -66,19 +83,24 @@ public class User {
         this.surname = surname;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
+
     @Override
     public String toString() {
-        return String.format(
-                "User[id=%d, name='%s', surname='%s']",
-                id, name, surname
-        );
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                //", roles=" + roles +
+                '}';
     }
 }

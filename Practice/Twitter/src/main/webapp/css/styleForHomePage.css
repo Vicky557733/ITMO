@@ -1,0 +1,43 @@
+/*ЦВЕТ И ОТСТУП СНИЗУ ДЛЯ БЛОКОВ*/
+.head-block,.top-menu,.top-material,.left-sidebar,.content, .main-block{
+    background:#ccc;
+    margin-bottom:1px;
+}
+.top-menu{
+    height:30px;
+}
+
+.top-menu{
+    background:#daf2fe;
+}
+.top-menu ul{
+    padding-left:0;
+    margin-bottom:0;
+}
+.top-menu li{
+    display:inline-block;
+    margin-left:1px;
+    padding:3px 10px;
+}
+
+.well {
+    margin-top:20px;
+}
+.head-block{
+    height:130px;
+    background-color: rgb(185,216,244);
+}
+.logo {
+    margin-top: 7px;
+}
+
+.nav>li>a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.nav-pills {
+    margin: 0 auto;
+    padding: 0;
+    width: 800px;
+}

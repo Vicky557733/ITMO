@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>HOME</title>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          rel="stylesheet" type="text/css" />
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/js/bootstrap.min.js"
+          type="text/javascript" />
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../../webapp/css/styleForHomePage.css" th:href="@{/css/styleForHomePage.css}" />
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript">
+       $(document).ready(function(){
+            $("#myTab a").not(".direct_link").click(function(e){
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+
+       $(function () {
+           document.page_num = 1;
+           $("#ajax_button").click(function () {
+               getNotes(document.page_num);
+               document.page_num++;
+           });
+       });
+       function getNotes(page_num) {
+           $.ajax(
+                   {
+                       method : 'get',
+                       url : '/ajax/get_notes?page=' + page_num
+                   }
+           ).done(
+                   function(data) {
+                       if(data.last){ $("#ajax_button").prop("disabled",true); }
+                       var arrayNotes = [];
+                       data.content.forEach(function (note) {
+                           arrayNotes.push(
+                                   $('<tr/>').append(
+                                           $('<td/>').text(note.user.name),
+                                           $('<td/>').text(note.body)
+                                   ));
+                       });
+                       $('#myTableNews tbody').append(arrayNotes);
+                       // $('#myTableNews').html(data);
+                       console.log(data);
+                       console.log('done');
+                   }
+           ).fail(
+                   function(error){
+                       console.log('fail');
+                       console.log(error);
+                   }
+           );
+       }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            (function ($) {
+                $('#myInput').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.searchable div').hide();
+                    $('.searchable div').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-12 head-block"> <!-- шапка -->
+            <a href="#"><img class="logo" src="images/logo.png" alt=""/></a> <!-- логотип, ссылка -->
+            Имя и фамилия пользователя
+        </div>
+
+        <div class="col-md-12 top-menu"> <!--Меню-->
+            <ul id="myTab" class="nav nav-pills">
+                <li class="active"><a href="#tab1">Моя страница</a></li>
+                <li><a href="#tab2">Люди</a></li>
+                <li><a href="#tab3">Новости</a></li>
+                <li><a class="direct_link" href="new_post">Написать пост</a></li>
+                <li>
+                    <form class="navbar-form" data-th-action="@{/logout}" method="post">
+                        <label for="logout_submit" class="btn btn-info btn-lg"><i class="fa fa-sign-out fa-fw">Log Out</i></label>
+                        <input id="logout_submit" type="submit" value="Go" class="hidden" />
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-2">Левый блок</div>
+
+        <div class="col-sm-10 main-block"><!--Основной блок-->
+            <div class="well">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab1">
+                        tab1
+                    </div>
+
+                    <div class="tab-pane fade in" id="tab2">
+                        tab2
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control" id="myInput" onkeyup="searchFunction()" placeholder="Search for names.."/>
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+                        <div class="row">
+                            <!-- 1 Изображение -->
+                            <div class="searchable">
+                                <div class="col-sm-6 col-md-4" th:each="user : ${users}">
+                                    <div class="thumbnail">
+                                        <img src="..." alt="..."/>
+                                        <div class="caption">
+                                            <h3 th:text="${user.name} + ' ' + ${user.surname}">Заголовок...</h3>
+                                            <p th:text="${user.username}">Контент...</p>
+                                            <p th:text="${countNotes[user.id]}">Контент...</p>
+                                            <p><a href="#" class="btn btn-primary" role="button">Читать</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="tab-pane fade in" id="tab3">
+                        <table class="table table-condensed table-striped table-bordered table-hover" id="myTableNews">
+                            <thead>
+                            <tr>
+                                <th>NAME</th>
+                                <th>POST</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="note : ${notes}">
+                                <td th:text="${note.user.name}"></td>
+                                <td th:text="${note.body}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <input type="button" value="ajax" id="ajax_button" class="btn"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-sm-12">Подвал сайта</div>
+    </div>
+</div>
+</body>
+</html>

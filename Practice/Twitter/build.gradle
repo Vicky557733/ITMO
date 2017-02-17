@@ -13,7 +13,7 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 jar {
-    baseName = 'Twitter2'
+    baseName = 'Twitter'
     version =  '0.1.0'
 }
 
@@ -26,12 +26,17 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+    compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("com.h2database:h2")
     compile ('mysql:mysql-connector-java')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    //compile 'javax.servlet:jstl:1.2'
+    //compile("org.thymeleaf:thymeleaf-spring4")
+    //compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity4")
     runtime('mysql:mysql-connector-java')
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.springframework.security:spring-security-test")
 }
 

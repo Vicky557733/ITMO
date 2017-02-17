@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>HOME</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../webapp/css/myStyle.css" th:href="@{/css/myStyle.css}" />
+    <link rel="stylesheet" href="../../webapp/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <script src="../../webapp/js/jquery.js" type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <script src="../../webapp/js/bootstrap.min.js" type="application/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#login-form-link').click(function(e) {
+                $("#login-form").delay(100).fadeIn(100);
+                $("#register-form").fadeOut(100);
+                $('#register-form-link').removeClass('active');
+                $(this).addClass('active');
+                e.preventDefault();
+            });
+            $('#register-form-link').click(function(e) {
+                $("#register-form").delay(100).fadeIn(100);
+                $("#login-form").fadeOut(100);
+                $('#login-form-link').removeClass('active');
+                $(this).addClass('active');
+                e.preventDefault();
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="#" class="active" id="login-form-link">Login</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" id="register-form-link">Register</a>
+                        </div>
+                    </div>
+                    <hr/>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div th:if="${param.error}">
+                                Invalid username and password.
+                            </div>
+                            <div th:if="${param.logout}">
+                                You have been logged out.
+                            </div>
+                            <p th:text="${param.option}"></p>
+                            <div th:if="${param.register_error}">
+                                <p th:text="${param.register_error[0]}"></p>
+                            </div>
+                            <div th:if="${param.register_success}">
+                                <p th:text="${param.register_success[0]}"></p>
+                            </div>
+
+
+                            <form id="login-form" th:action="@{/login}"  method="post" role="form" style="display: block;">
+                                <div class="well">
+                                    <div class="form-group" th:with="field=login_username">
+                                        <label th:for="${field}" class="control-label">Username</label>
+                                        <input type="text" th:id="${field}" class="form-control" th:name="${field}" value="" required="" tabindex="1" title="Please enter your username" placeholder="Username"/>
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <div class="form-group" th:with="field=login_password">
+                                        <label th:for="${field}" class="control-label">Password</label>
+                                        <input type="password" th:id="${field}" class="form-control" th:name="${field}" placeholder="Password" value="" tabindex="2" required="" title="Please enter your password"/>
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <!--div id="loginErrorMsg" class="alert alert-error hide">Wrong username or password</div-->
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="login-submit" id="login-submit" tabindex="3" class="btn btn-success btn-login center-block" value="Log In"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        <div class="col-lg-12">
+                            <form id="register-form" th:action="@{/registration}" method="post" role="form" style="display: none;" th:object="${user}">
+                                <div class="well">
+                                    <div class="form-group" th:with="field=name">
+                                        <label th:for="${field}" class="control-label">Name</label>
+                                        <input type="text" th:name="${field}" th:id="${field}" tabindex="1" required="" class="form-control" title="Please enter your name" placeholder="Username" value=""/>
+                                    </div>
+
+                                    <div class="form-group" th:with="field=surname">
+                                        <label th:for="${field}" class="control-label">Surname</label>
+                                        <input type="text" th:name="${field}" th:id="${field}" tabindex="2" required="" class="form-control" title="Please enter your surname" placeholder="Surname" value=""/>
+                                    </div>
+
+                                    <div class="form-group" th:with="field=username">
+                                        <label th:for="${field}" class="control-label">Username</label>
+                                        <input type="text" th:name="${field}" th:id="${field}" tabindex="3" required="" class="form-control" title="Please enter your nickname" placeholder="Nickname" value=""/>
+                                    </div>
+                                    <div class="form-group" th:with="field=password">
+                                        <label th:for="${field}" class="control-label">Password</label>
+                                        <input type="password" th:name="${field}" th:id="${field}" tabindex="4" required="" class="form-control" title="Please enter your password" placeholder="Password"/>
+                                    </div>
+                                    <div class="form-group" th:with="field=confirmPassword">
+                                        <label th:for="${field}" class="control-label">Confirm password</label>
+                                        <input type="password" th:name="${field}" th:id="${field}" tabindex="5" required="" class="form-control" title="Please enter your password" placeholder="Confirm Password"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="register-submit" id="register-submit" tabindex="6" required="" class="btn btn-success btn-register center-block" value="Register Now"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

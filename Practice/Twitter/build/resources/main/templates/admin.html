@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Home page</title>
+    <link href='../static/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
+    <link href='../../webapp/resources/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
+    <link href='../static/css/myStyle.css' rel='stylesheet' type='text/css'/>
+    <link href='../../webapp/resources/css/myStyle.css' rel='stylesheet' type='text/css'/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#login-form-link').click(function(e) {
+                $("#login-form").delay(100).fadeIn(100);
+                $("#register-form").fadeOut(100);
+                $('#register-form-link').removeClass('active');
+                $(this).addClass('active');
+                e.preventDefault();
+            });
+            $('#register-form-link').click(function(e) {
+                $("#register-form").delay(100).fadeIn(100);
+                $("#login-form").fadeOut(100);
+                $('#login-form-link').removeClass('active');
+                $(this).addClass('active');
+                e.preventDefault();
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="#" class="active" id="login-form-link">Login</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" id="register-form-link">Register</a>
+                        </div>
+                    </div>
+                    <hr/>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form id="login-form" action="login" method="post" role="form" style="display: block;">
+                                <div class="well">
+                                    <div class="form-group">
+                                        <label for="username" class="control-label">Username</label>
+                                        <input type="username" class="form-control" name="username" value="" required="" tabindex="1" title="Please enter your username" placeholder="Username"/>
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password" class="control-label">Password</label>
+                                        <input type="password" class="form-control" name="password" placeholder="Password" value="" tabindex="2" required="" title="Please enter your password"/>
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <div id="loginErrorMsg" class="alert alert-error hide">Wrong username or password</div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="login-submit" id="login-submit" tabindex="3" class="btn btn-success btn-login center-block" value="Log In"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-12">
+                            <form id="register-form" action="registration" method="post" role="form" style="display: none;">
+                                <div class="well">
+                                    <div class="form-group">
+                                        <label for="username" class="control-label">Name</label>
+                                        <input type="username" name="username" id="username" tabindex="1" required="" class="form-control" title="Please enter your name" placeholder="Username" value=""/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="surname" class="control-label">Surname</label>
+                                        <input type="surname" name="surname" id="surname" tabindex="2" required="" class="form-control" title="Please enter your surname" placeholder="Surname" value=""/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="nickname" class="control-label">Nickname</label>
+                                        <input type="nickname" name="nickname" id="nickname" tabindex="3" required="" class="form-control" title="Please enter your nickname" placeholder="Nickname" value=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password" class="control-label">Password</label>
+                                        <input type="password" name="password" id="password" tabindex="4" required="" class="form-control" title="Please enter your password" placeholder="Password"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm-password" class="control-label">Confirm password</label>
+                                        <input type="password" name="confirm-password" id="confirm-password" tabindex="5" required="" class="form-control" title="Please enter your password" placeholder="Confirm Password"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="register-submit" id="register-submit" tabindex="6" required="" class="btn btn-success btn-register center-block" value="Register Now"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

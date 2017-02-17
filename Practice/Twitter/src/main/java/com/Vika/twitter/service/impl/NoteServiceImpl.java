@@ -1,12 +1,17 @@
 package com.Vika.twitter.service.impl;
 
 import com.Vika.twitter.models.Note;
+import com.Vika.twitter.models.User;
 import com.Vika.twitter.models.repositories.NoteRepository;
 import com.Vika.twitter.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component
 public class NoteServiceImpl implements NoteService{
     @Autowired
     private NoteRepository noteRepository;
@@ -32,7 +37,17 @@ public class NoteServiceImpl implements NoteService{
     }
 
     @Override
-    public Iterable<Note> findAllNotesByDate(Date date) {
-        return noteRepository.findAllByDate(date);
+    public Long countNotesByUser(User user){
+        return noteRepository.countNotesByUser(user);
+    }
+
+    @Override
+    public Iterable<Note> getAllNotes() {
+        return noteRepository.findAll() ;
+    }
+
+    @Override
+    public Page<Note> getAllNotes(Pageable pageable) {
+        return noteRepository.findAll(pageable);
     }
 }
